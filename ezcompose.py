@@ -80,9 +80,9 @@ while cont == "y":
     else:
         pass
 
-    cont = str(input("Queres agregar un nuevo contenedor? [y/n]: "))
+    cont = str(input("\nQueres agregar un nuevo contenedor? [y/n]: "))
    
-    # Definiendo redes y volumenes
+# Definiendo redes y volumenes
 
 if network == str("y"):
     text_file.write("\n\n" + str("networks:\n  ") + str(network_name)+":" +"\n")

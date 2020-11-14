@@ -28,7 +28,7 @@ Escribe el nombre del servicio:
 ```
 ### Le faltan opciones a EZCompose
 
-Si, eso es correcto, a la fecha que estoy escribiendo (Noviembre 2020) esto EZCompose es capaz de generar un archivo docker-compose.yml totalmente funcional, pero es bastante limitado, solo podés agregar un solo juego de puertos, un solo volumen, una sola label, etc. La idea es que a medida que siga aprendiendo Python, tenga más funcionalidades y alcance un grado "Production Ready".
+Si, eso es correcto, a la fecha que estoy escribiendo esto, (Noviembre 2020) EZCompose es capaz de generar un archivo docker-compose.yml totalmente funcional, pero es bastante limitado, solo podés agregar un solo juego de puertos, un solo volumen, una sola label, etc. La idea es que a medida que siga aprendiendo Python, tenga más funcionalidades y alcance un grado "Production Ready".
 
 ### Che, me gustaría contribuir
 

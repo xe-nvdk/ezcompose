@@ -1,5 +1,5 @@
-import os
-os.system("clear")
+#import os
+#os.system("clear")
 
 print("##############################################################")
 print("################ Bienvenides a EZCompose #####################")
@@ -25,6 +25,7 @@ while cont == "y":
     if container_name == str("y"):
         container_name = str(input("Dame un nombre para tu contenedor: "))
         text_file.write("\n    " + str("container_name: ") + str(container_name))
+
     else: 
         pass
 
@@ -32,12 +33,17 @@ while cont == "y":
     text_file.write("\n    " + str("image: ") + str(image))
 
     ports = str(input("¿Quieres publicar uno o mas puertos? [y/n]: "))
+    text_file.write("\n    " + str("ports:"))
 
-    if ports == str("y"):
-        port_published = int(input("Define el puerto que vas a publicar hacia afuera: "))
-        port_container = int(input("Define el puerto del contenedor: "))
-        text_file.write("\n    " + str("ports:\n     - ") + str(port_published) + ":" + str(port_container))
+    cont = "y"
+    while cont == "y":
+        
+        if ports == str("y"):
+            port_published = int(input("Define el puerto a publicar hacia afuera: "))
+            port_container = int(input("Define el puerto del contenedor: "))
+            text_file.write("\n     - " + str(port_published) + ":" + str(port_container))
 
+            cont = str(input("\nQueres agregar mas puertos? [y/n]: "))
     else:
         pass
 
@@ -71,11 +77,17 @@ while cont == "y":
         pass
 
     labels = str(input("¿Quieres especificar una label? [y/n]: "))
+    text_file.write("\n    " + str("labels:"))
 
-    if labels == str("y"):
-        label_name = str(input("Especifica el nombre de la label: "))
-        label_value = str(input("Especifica el valor de la label: "))
-        text_file.write("\n    " + str("labels:\n     - ") + str(label_name) + "=" + str(label_value) + "\n")
+    cont = "y"
+    while cont == "y":
+        
+        if labels == str("y"):
+            label_name = str(input("Especifica el nombre de la label: "))
+            label_value = str(input("Especifica el valor de la label: "))
+            text_file.write("\n     - " + str(label_name) + "=" + str(label_value))
+
+            cont = str(input("\nQueres agregar mas labels? [y/n]: "))
 
     else:
         pass
@@ -95,7 +107,8 @@ print("\nGracias por usar EZCompose")
 print("\n")
 
 # Horas dedicadas a este proyecto:
-# 14/11/2020: 10.5 horas. 
+# 14/11/2020: 10.5 horas.
+# 15/11/2020: 10:30 AM
 
 # Contributors:
 # * Ignacio Van Droogenbroeck

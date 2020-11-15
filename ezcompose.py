@@ -44,6 +44,10 @@ while cont == "y":
             text_file.write("\n     - " + str(port_published) + ":" + str(port_container))
 
             cont = str(input("\nQueres agregar mas puertos? [y/n]: "))
+
+        else:
+            break
+
     else:
         pass
 
@@ -88,6 +92,9 @@ while cont == "y":
             text_file.write("\n     - " + str(label_name) + "=" + str(label_value))
 
             cont = str(input("\nQueres agregar mas labels? [y/n]: "))
+
+        else:
+            break
 
     else:
         pass

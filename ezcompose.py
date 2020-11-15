@@ -1,5 +1,5 @@
-#import os
-#os.system("clear")
+import os
+os.system("clear")
 
 print("##############################################################")
 print("################ Bienvenides a EZCompose #####################")

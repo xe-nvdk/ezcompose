@@ -107,8 +107,8 @@ print("\nGracias por usar EZCompose")
 print("\n")
 
 # Horas dedicadas a este proyecto:
-# 14/11/2020: 10.5 horas.
-# 15/11/2020: 10:30 AM
+# 14/11/2020: 10.5
+# 15/11/2020: 2
 
 # Contributors:
 # * Ignacio Van Droogenbroeck

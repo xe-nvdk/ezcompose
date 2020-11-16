@@ -5,7 +5,10 @@ EZCompose es un programa en Python que mediante un asistente te ayuda a generar 
 
 ### Como ejecuto EZCompose
 
-Para ejecutar EZCompose, necesitas tener instalado Python, la versión 2 o 3, esta es indiferente pero es recomendable usar la versión 3 que es la más nueva. Para instalar Python3 en tu computadora, podes ejecutar en Linux lo siguiente:
+Para ejecutar EZCompose, si estás en Linux, descargas el ejecutable que encontrarás en [releases](https://github.com/xe-nvdk/ezcompose/releases), si no quieres ejecutarlo desde el ejecutable y quieres lanzar el script de Python, usa el que esta especificado en el release, ya que el de repositorio se esta tocando todo el tiempo y puede no funcionar. 
+
+Si usas código fuente descargado desde el release, necesitas instalar Python3 en tu sistema, Si no lo tienes, ejecutas:
+
 ```
 $ sudo apt-get install python3
 ```

@@ -13,13 +13,17 @@ version = ('version: "3.3"\n\n')
 text_file.write(version)
 
 services = ("services:\n")
-text_file.write(services)  
+text_file.write(services)
 
 cont = "y"
 while cont == "y":
 
+# Definiendo nombre del servicio
+
     service_name = str(input("Escribe el nombre del servicio: "))
     text_file.write("\n\n   " + str(service_name) + ":")
+
+# Definiendo nombre del contenedor
 
     container_name = str(input("¿Quieres especificar un nombre al contenedor? [y/n]: "))
     if container_name == str("y"):
@@ -29,8 +33,12 @@ while cont == "y":
     else: 
         pass
 
+# Definiendo imagen a descargar
+
     image = str(input("Define la imágen a descargar: "))
     text_file.write("\n    " + str("image: ") + str(image))
+
+# Definicion de puertos
 
     ports = str(input("¿Quieres publicar uno o mas puertos? [y/n]: "))
     if ports == str("y"):
@@ -55,6 +63,8 @@ while cont == "y":
     else:
         pass
 
+# Definicion de volumes
+
     volumes = str(input("¿Quieres montar volumenes? [y/n]: "))
     if volumes == str("y"):
         text_file.write("\n    " + str("volumes:"))
@@ -78,28 +88,20 @@ while cont == "y":
 
     else:
         pass
+
+# Definiendo redes
     
     network = str(input("¿Quieres especificar una red? [y/n]: "))
     if network == str("y"):
-        text_file.write("\n    " + str("networks:"))
-
-    else:
-        pass
-
-    cont = "y"
-    while cont == "y":
-
-        if network == str("y"):
-            network_name = str(input("Especifica el nombre de la red: "))
-            text_file.write("\n     - " + str(network_name))
-
-            cont = str(input("\nQueres agregar mas redes? [y/n]: "))
+        text_file.write("\n    " + str("networks:\n"))
+        network_names = str(input("Define las redes separadas por coma: "))
+        network_list = network_names.split(",")
+        text_file.write("\n       - ".join(network_list))
         
-        else:
-            break
-
     else:
         pass
+
+# Definiendo comandos
 
     command = str(input("¿Quieres especificar un comando? [y/n]: "))
 
@@ -137,9 +139,7 @@ while cont == "y":
 
 # Definiendo redes y volumenes
 
-if network == str("y"):
-    text_file.write("\n\n" + str("networks:"))
-    text_file.write("\n   - " + str(network_name)+":")
+#    text_file.write("\n   - " + str(network_name)+":")
 
 text_file.close()
 
@@ -150,7 +150,7 @@ print("\n")
 # Horas dedicadas a este proyecto:
 # 14/11/2020: 10.5
 # 15/11/2020: 8
-# 16/11/2020: 2
+# 16/11/2020: 5
 
 # Contributors:
 # * Ignacio Van Droogenbroeck

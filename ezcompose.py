@@ -33,7 +33,11 @@ while cont == "y":
     text_file.write("\n    " + str("image: ") + str(image))
 
     ports = str(input("¿Quieres publicar uno o mas puertos? [y/n]: "))
-    text_file.write("\n    " + str("ports:"))
+    if ports == str("y"):
+        text_file.write("\n    " + str("ports:"))
+
+    else:
+        pass
 
     cont = "y"
     while cont == "y":
@@ -52,21 +56,47 @@ while cont == "y":
         pass
 
     volumes = str(input("¿Quieres montar volumenes? [y/n]: "))
-
     if volumes == str("y"):
-        local_path = str(input("Especifica el directorio local: "))
-        container_path = str(input("Especifica el directorio a resguardar en el contenedor: "))
-        permissions = str(input("Define los permisos. Pueden ser rw o ro, si no especificas nada, sera rw: "))
-        text_file.write("\n    " + str("volumes:\n     - ") + str(local_path) + ":" + str(container_path) + ":" + str(permissions))
+        text_file.write("\n    " + str("volumes:"))
+    
+    else:
+        pass
+
+    cont = "y"
+    while cont == "y":
+        
+        if volumes == str("y"):
+            local_path = str(input("Especifica el directorio local: "))
+            container_path = str(input("Especifica el directorio a resguardar en el contenedor: "))
+            permissions = str(input("Define los permisos. Pueden ser rw o ro, si no especificas nada, sera rw: "))
+            text_file.write("\n    " + str("volumes:\n     - ") + str(local_path) + ":" + str(container_path) + ":" + str(permissions))
+
+            cont = str(input("\nQueres agregar otro volumen? [y/n]: "))
+
+        else:
+            break
+
+    else:
+        pass
+    
+    network = str(input("¿Quieres especificar una red? [y/n]: "))
+    if network == str("y"):
+        text_file.write("\n    " + str("networks:"))
 
     else:
         pass
 
-    network = str(input("¿Quieres especificar una red? [y/n]: "))
+    cont = "y"
+    while cont == "y":
 
-    if network == str("y"):
-        network_name = str(input("Especifica el nombre de la red: "))
-        text_file.write("\n    " + str("networks:\n     - ") + str(network_name))
+        if network == str("y"):
+            network_name = str(input("Especifica el nombre de la red: "))
+            text_file.write("\n     - " + str(network_name))
+
+            cont = str(input("\nQueres agregar mas redes? [y/n]: "))
+        
+        else:
+            break
 
     else:
         pass
@@ -81,7 +111,11 @@ while cont == "y":
         pass
 
     labels = str(input("¿Quieres especificar una label? [y/n]: "))
-    text_file.write("\n    " + str("labels:"))
+    if labels == str("y"):
+        text_file.write("\n    " + str("labels:"))
+
+    else:
+        pass
 
     cont = "y"
     while cont == "y":
@@ -100,12 +134,12 @@ while cont == "y":
         pass
 
     cont = str(input("\nQueres agregar un nuevo contenedor? [y/n]: "))
-   
+
 # Definiendo redes y volumenes
 
 if network == str("y"):
-    text_file.write("\n\n" + str("networks:\n  ") + str(network_name)+":" +"\n")
-
+    text_file.write("\n\n" + str("networks:"))
+    text_file.write("\n   - " + str(network_name)+":")
 
 text_file.close()
 
@@ -115,7 +149,8 @@ print("\n")
 
 # Horas dedicadas a este proyecto:
 # 14/11/2020: 10.5
-# 15/11/2020: 2
+# 15/11/2020: 8
+# 16/11/2020: 2
 
 # Contributors:
 # * Ignacio Van Droogenbroeck

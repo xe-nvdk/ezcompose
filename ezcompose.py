@@ -30,7 +30,7 @@ while cont == "y":
         pass
 
     image = str(input("Define la imágen a descargar: "))
-    text_file.write(str('\n    ') + str('image: ') + str(image))
+    text_file.write(str("\n    ") + str("image: ") + str(image))
 
     ports = str(input("¿Quieres publicar uno o mas puertos? [y/n]: "))
     text_file.write("\n    " + str("ports:"))

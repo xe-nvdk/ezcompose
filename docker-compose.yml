@@ -1,0 +1,18 @@
+version: "3.3"
+
+services:
+
+
+   webserver:
+    container_name: wordpress
+    image: wordpress:latest
+    ports:
+     - 80:80
+    volumes:
+     - $PWD:/var/www/html/wp-content:
+    networks:
+     - wordpress
+    labels:
+
+networks:
+  wordpress:

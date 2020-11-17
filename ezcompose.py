@@ -1,5 +1,5 @@
 import os
-os.system("clear")
+#os.system("clear")
 
 print("##############################################################")
 print("################ Bienvenides a EZCompose #####################")
@@ -13,17 +13,13 @@ version = ('version: "3.3"\n\n')
 text_file.write(version)
 
 services = ("services:\n")
-text_file.write(services)
+text_file.write(services)  
 
 cont = "y"
 while cont == "y":
 
-# Definiendo nombre del servicio
-
     service_name = str(input("Escribe el nombre del servicio: "))
     text_file.write("\n\n   " + str(service_name) + ":")
-
-# Definiendo nombre del contenedor
 
     container_name = str(input("¿Quieres especificar un nombre al contenedor? [y/n]: "))
     if container_name == str("y"):
@@ -33,19 +29,11 @@ while cont == "y":
     else: 
         pass
 
-# Definiendo imagen a descargar
-
     image = str(input("Define la imágen a descargar: "))
-    text_file.write("\n    " + str("image: ") + str(image))
-
-# Definicion de puertos
+    text_file.write(str('\n    ') + str('image: ') + str(image))
 
     ports = str(input("¿Quieres publicar uno o mas puertos? [y/n]: "))
-    if ports == str("y"):
-        text_file.write("\n    " + str("ports:"))
-
-    else:
-        pass
+    text_file.write("\n    " + str("ports:"))
 
     cont = "y"
     while cont == "y":
@@ -63,45 +51,25 @@ while cont == "y":
     else:
         pass
 
-# Definicion de volumes
-
     volumes = str(input("¿Quieres montar volumenes? [y/n]: "))
+
     if volumes == str("y"):
-        text_file.write("\n    " + str("volumes:"))
-    
-    else:
-        pass
-
-    cont = "y"
-    while cont == "y":
-        
-        if volumes == str("y"):
-            local_path = str(input("Especifica el directorio local: "))
-            container_path = str(input("Especifica el directorio a resguardar en el contenedor: "))
-            permissions = str(input("Define los permisos. Pueden ser rw o ro, si no especificas nada, sera rw: "))
-            text_file.write("\n    " + str("volumes:\n     - ") + str(local_path) + ":" + str(container_path) + ":" + str(permissions))
-
-            cont = str(input("\nQueres agregar otro volumen? [y/n]: "))
-
-        else:
-            break
+        local_path = str(input("Especifica el directorio local: "))
+        container_path = str(input("Especifica el directorio a resguardar en el contenedor: "))
+        permissions = str(input("Define los permisos. Pueden ser rw o ro, si no especificas nada, sera rw: "))
+        text_file.write("\n    " + str("volumes:\n     - ") + str(local_path) + ":" + str(container_path) + ":" + str(permissions))
 
     else:
         pass
 
-# Definiendo redes
-    
     network = str(input("¿Quieres especificar una red? [y/n]: "))
+
     if network == str("y"):
-        text_file.write("\n    " + str("networks:\n"))
-        network_names = str(input("Define las redes separadas por coma: "))
-        network_list = network_names.split(",")
-        text_file.write("\n       - ".join(network_list))
-        
+        network_name = str(input("Especifica el nombre de la red: "))
+        text_file.write("\n    " + str("networks:\n     - ") + str(network_name))
+
     else:
         pass
-
-# Definiendo comandos
 
     command = str(input("¿Quieres especificar un comando? [y/n]: "))
 
@@ -113,11 +81,7 @@ while cont == "y":
         pass
 
     labels = str(input("¿Quieres especificar una label? [y/n]: "))
-    if labels == str("y"):
-        text_file.write("\n    " + str("labels:"))
-
-    else:
-        pass
+    text_file.write("\n    " + str("labels:"))
 
     cont = "y"
     while cont == "y":
@@ -136,10 +100,12 @@ while cont == "y":
         pass
 
     cont = str(input("\nQueres agregar un nuevo contenedor? [y/n]: "))
-
+   
 # Definiendo redes y volumenes
 
-#    text_file.write("\n   - " + str(network_name)+":")
+if network == str("y"):
+    text_file.write("\n\n" + str("networks:\n  ") + str(network_name)+":" +"\n")
+
 
 text_file.close()
 
@@ -149,8 +115,7 @@ print("\n")
 
 # Horas dedicadas a este proyecto:
 # 14/11/2020: 10.5
-# 15/11/2020: 8
-# 16/11/2020: 5
+# 15/11/2020: 2
 
 # Contributors:
 # * Ignacio Van Droogenbroeck

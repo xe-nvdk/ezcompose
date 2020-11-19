@@ -4,15 +4,17 @@ services:
 
 
    webserver:
-    container_name: wordpress
-    image: wordpress:latest
+    container_name: nginx
+    image: nginx:latest
     ports:
-     - 80:80
+     - 9191:80
+    networks: 
+     - frontend
     volumes:
-     - $PWD:/var/www/html/wp-content:
-    networks:
-     - wordpress
-    labels:
+     - vol3:/usr/share/nginx/html
 
 networks:
-  wordpress:
+  frontend:
+
+volumes:
+  vol3:

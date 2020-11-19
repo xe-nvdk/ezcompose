@@ -1,49 +1,67 @@
 import os
-#os.system("clear")
+os.system("clear")
 
-print("##############################################################")
-print("################ Bienvenides a EZCompose #####################")
-print("##############################################################\n")
+# v0.1.4
 
-print("Este programa te ayudará a crear un archivo docker-compose.yml\n")
+# What's New
 
-text_file = open("docker-compose.yml", "w")
+# Added capacity to specify multiples bind volumes
+# Added posibility to add multiple networks
 
-version = ('version: "3.3"\n\n')
-text_file.write(version)
+global VOLUMES_BIND
+
+print("######################################################################")
+print("###################### Welcome to EZCompose ##########################")
+print("######################################################################\n")
+
+print("This software is going to help you to build a docker-compose.yml file\n")
+
+TEXT_FILE = open("docker-compose.yml", "w")
+
+VERSION = ('version: "3.3"\n\n')
+TEXT_FILE.write(VERSION)
 
 services = ("services:\n")
-text_file.write(services)  
+TEXT_FILE.write(services)
 
 cont = "y"
 while cont == "y":
 
-    service_name = str(input("Escribe el nombre del servicio: "))
-    text_file.write("\n\n   " + str(service_name) + ":")
+# Defining Service Name
 
-    container_name = str(input("¿Quieres especificar un nombre al contenedor? [y/n]: "))
+    SERVICE_NAME = str(input("Name of the service: "))
+    TEXT_FILE.write("\n\n   " + str(SERVICE_NAME) + ":")
+
+# Name of the container
+
+    container_name = str(input("Do you want to name your container? [y/n]: "))
     if container_name == str("y"):
-        container_name = str(input("Dame un nombre para tu contenedor: "))
-        text_file.write("\n    " + str("container_name: ") + str(container_name))
+        container_name = str(input("Specify a name: "))
+        TEXT_FILE.write("\n    " + str("container_name: ") + str(container_name))
 
-    else: 
+    else:
         pass
 
-    image = str(input("Define la imágen a descargar: "))
-    text_file.write(str("\n    ") + str("image: ") + str(image))
+# Image to download
 
-    ports = str(input("¿Quieres publicar uno o mas puertos? [y/n]: "))
-    text_file.write("\n    " + str("ports:"))
+    image = str(input("What's the image?: "))
+    TEXT_FILE.write(str("\n    ") + str("image: ") + str(image))
+
+# Ports Definition
+
+    ports = str(input("¿Do you want to publish ports? [y/n]: "))
+    if ports == ("y"):
+        TEXT_FILE.write("\n    " + str("ports:"))
 
     cont = "y"
     while cont == "y":
-        
-        if ports == str("y"):
-            port_published = int(input("Define el puerto a publicar hacia afuera: "))
-            port_container = int(input("Define el puerto del contenedor: "))
-            text_file.write("\n     - " + str(port_published) + ":" + str(port_container))
 
-            cont = str(input("\nQueres agregar mas puertos? [y/n]: "))
+        if ports == str("y"):
+            port_published = int(input("Define external port: "))
+            port_container = int(input("Define container port: "))
+            TEXT_FILE.write("\n     - " + str(port_published) + ":" + str(port_container))
+
+            cont = str(input("\nDo you want to add more ports? [y/n]: "))
 
         else:
             break
@@ -51,47 +69,84 @@ while cont == "y":
     else:
         pass
 
-    volumes = str(input("¿Quieres montar volumenes? [y/n]: "))
+# Networks Definition
 
-    if volumes == str("y"):
-        local_path = str(input("Especifica el directorio local: "))
-        container_path = str(input("Especifica el directorio a resguardar en el contenedor: "))
-        permissions = str(input("Define los permisos. Pueden ser rw o ro, si no especificas nada, sera rw: "))
-        text_file.write("\n    " + str("volumes:\n     - ") + str(local_path) + ":" + str(container_path) + ":" + str(permissions))
+    NETWORKS = str(input("Do you want to define a network? [y/n]: "))
 
-    else:
-        pass
-
-    network = str(input("¿Quieres especificar una red? [y/n]: "))
-
-    if network == str("y"):
-        network_name = str(input("Especifica el nombre de la red: "))
-        text_file.write("\n    " + str("networks:\n     - ") + str(network_name))
+    if NETWORKS == ("y"):
+        TEXT_FILE.write("\n    networks: ")
+        NETWORK_NAME = str(input("Define the networks, comma separated: "))
+        NETWORK_NAME = NETWORK_NAME.split(", ")
+        for item in NETWORK_NAME:
+            TEXT_FILE.write("\n     - %s" % item)
 
     else:
         pass
 
-    command = str(input("¿Quieres especificar un comando? [y/n]: "))
+# Bind Volumes Definition
+
+    BIND_VOLUMES = str(input("¿Do you want to add Bind Volumes? [y/n]: "))
+    if BIND_VOLUMES == str("y"):
+        TEXT_FILE.write("\n    volumes: ")
+
+    cont = "y"
+    while cont == "y":
+
+        if BIND_VOLUMES == str("y"):
+            LOCAL_PATH = str(input("Define the local path: "))
+            CONTAINER_PATH = str(input("Define the path in container: "))
+            PERMISSIONS = str(input("Define permissions [rw/ro]: "))
+            TEXT_FILE.write(str("\n     - " + str(LOCAL_PATH) + str(":") + str(CONTAINER_PATH) + str(":") + str(PERMISSIONS)))
+
+            cont = str(input("\nDo you want to add more Bind Volumes? [y/n]: "))
+
+        else:
+            break
+
+    else:
+        pass
+
+# Managed Volumes Definition
+
+    MANAGED_VOLUMES = str(input("¿Do you want to add Manage Volumes? [y/n]: "))
+    if BIND_VOLUMES == str("n") and MANAGED_VOLUMES == ("y"):
+        TEXT_FILE.write("\n    volumes:")
+
+
+    if MANAGED_VOLUMES == str("y"):
+        VOLUME_NAME = str(input("Define a Managed Volume name: "))
+        CONTAINER_PATH = str(input("Define the path in container: "))
+        TEXT_FILE.write(str("\n     - " + str(VOLUME_NAME) + ":" + str(CONTAINER_PATH)))
+
+    else:
+        pass
+
+# Command definition
+
+    command = str(input("Do you want to define a command? [y/n]: "))
 
     if command == str("y"):
-        command_name = str(input("Especifica el comando: "))
-        text_file.write("\n    " + str("command:\n     - ") + str(command_name))
+        command_name = str(input("Type the command: "))
+        TEXT_FILE.write("\n    " + str("command:\n     - ") + str(command_name))
 
     else:
         pass
 
-    labels = str(input("¿Quieres especificar una label? [y/n]: "))
-    text_file.write("\n    " + str("labels:"))
+# Label Definition
+
+    LABELS = str(input("Do you want to add a Label? [y/n]: "))
+    if LABELS == ("y"):
+        TEXT_FILE.write("\n    " + str("labels:"))
 
     cont = "y"
     while cont == "y":
-        
-        if labels == str("y"):
-            label_name = str(input("Especifica el nombre de la label: "))
-            label_value = str(input("Especifica el valor de la label: "))
-            text_file.write("\n     - " + str(label_name) + "=" + str(label_value))
 
-            cont = str(input("\nQueres agregar mas labels? [y/n]: "))
+        if LABELS == str("y"):
+            LABEL_NAME = str(input("Name of the Label: "))
+            LABEL_VALUE = str(input("Value of the Label: "))
+            TEXT_FILE.write("\n     - " + str(LABEL_NAME) + "=" + str(LABEL_VALUE))
+
+            cont = str(input("\nDo you want to add more labels? [y/n]: "))
 
         else:
             break
@@ -99,15 +154,20 @@ while cont == "y":
     else:
         pass
 
-    cont = str(input("\nQueres agregar un nuevo contenedor? [y/n]: "))
-   
+    cont = str(input("\nDo you want to add a new container? [y/n]: "))
+
 # Definiendo redes y volumenes
 
-if network == str("y"):
-    text_file.write("\n\n" + str("networks:\n  ") + str(network_name)+":" +"\n")
+    if NETWORKS == str("y"):
+        TEXT_FILE.write("\n\n" + str("networks:"))
+        for item in NETWORK_NAME:
+            TEXT_FILE.write("\n  %s:" % item)
 
+    if MANAGED_VOLUMES == str("y"):
+        TEXT_FILE.write("\n\nvolumes:")
+        TEXT_FILE.write(str("\n  ") + str(VOLUME_NAME) + str(":"))
 
-text_file.close()
+TEXT_FILE.close()
 
 print("\nTu archivo esta listo, lo encontraras en el mismo directorio desde donde ejecutaste este programa")
 print("\nGracias por usar EZCompose")
@@ -116,6 +176,7 @@ print("\n")
 # Horas dedicadas a este proyecto:
 # 14/11/2020: 10.5
 # 15/11/2020: 2
+# 19/11/2020: 5.5
 
 # Contributors:
 # * Ignacio Van Droogenbroeck

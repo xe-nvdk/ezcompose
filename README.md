@@ -1,4 +1,4 @@
-# EZCompose ![visitors](https://visitor-badge.glitch.me/badge?page_id=ezcompose)
+# EZCompose ![visitors](https://visitor-badge.glitch.me/badge?page_id=ezcompose) ![Pylint](https://github.com/xe-nvdk/ezcompose/workflows/Pylint/badge.svg)
 EZCompose es un programa en Python que mediante un asistente te ayuda a generar un archivo docker-compose.yml. En este video, pueden ver [cómo funciona EZCompose](https://youtu.be/nCqUx_3D7mQ?t=100).
 
 ## Preguntas Frecuentes

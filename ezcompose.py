@@ -177,7 +177,7 @@ while CONT == "y":
 
 if NETWORKS == str("y"):
     TEXT_FILE.write("\n\n" + str("networks:"))
-    
+
     for item in NETWORK_NAME:
         TEXT_FILE.write("\n  %s:" % item)
 

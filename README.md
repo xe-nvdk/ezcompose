@@ -3,7 +3,7 @@ EZCompose is a docker-compose.yml builder. Define your images, networks, volumes
 
 ## FAQ
 
-### How I should run EZCompose?
+### How should I run EZCompose?
 
 In each release, you have a executable file to run EZCompose under Linux or MacOS. 
 ```

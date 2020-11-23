@@ -18,4 +18,4 @@ If you don't have installed Python, you can download it from [[here](https://www
 
 ### I want to contribute with EZCompose
 
-If you like this project and you want to contribute, you're very welcome to do it, just fork it and make a pull request when you're ready. Here, you can see the the [To Do list](https://github.com/xe-nvdk/ezcompose/projects/1) and here the [Issues]https://github.com/xe-nvdk/ezcompose/issues).
+If you like this project and you want to contribute, you're very welcome to do it, just fork it and make a pull request when you're ready. Here, you can see the the [To Do list](https://github.com/xe-nvdk/ezcompose/projects/1) and here the [Issues](https://github.com/xe-nvdk/ezcompose/issues).

@@ -1,25 +1,19 @@
 import os
 os.system("clear")
 
-# v0.1.5
+# v0.1.6
 
 # What's New
 
-# Add support to v3.8 of compose.
-# Add posibility to add multiple commands.
-# Refactory labels.
-# Fixe several typos.
-# Downsize the exectuable. From 11.1MB to 6.6MB.
-# You can run EZCompose from a container: docker run -it hectorivand/ezcompose:v0.1.5
-# "formating code" according PEP 8 style guide: https://www.python.org/dev/peps/pep-0008/#constants
-# Add the feature to print where the docker-compose.yml was saved.
-# Cosmetic touchs at the end of the software.
+# Added Restart condition
+# Added Environment variables
+# Added depends_on
 
 print("######################################################################")
 print("###################### Welcome to EZCompose ##########################")
 print("######################################################################\n")
 
-print("This software is going to help you to build a docker-compose.yml file\n")
+print("This software is going to help you to build a docker-compose.yml file.\n")
 
 TEXT_FILE = open("docker-compose.yml", "w")
 
@@ -52,6 +46,32 @@ while CONT == "y":
     IMAGE = str(input("What's the image?: "))
     TEXT_FILE.write(str("\n    ") + str("image: ") + str(IMAGE))
 
+# Restart Condition
+
+    RESTART = str(input("Do you want to define a restart policy? [y/n]: "))
+    if RESTART == ("y"):
+        print("In what condition you container should restart?:")
+        print("\n1: None \n2: Always \n3: On-Failure \n4: Unless-Stopped\n")
+        CONDITION = int(input("\nEnter your selection: "))
+
+        if CONDITION == int(1):
+            TEXT_FILE.write("\n    " + str("restart: no"))
+
+        elif CONDITION == int(2):
+            TEXT_FILE.write("\n    " + str("restart: always"))
+
+        elif CONDITION == int(3):
+            TEXT_FILE.write("\n    " + str("restart: on-failure"))
+
+        elif CONDITION == int(4):
+            TEXT_FILE.write("\n    " + str("restart: unless-stopped"))
+
+        else:
+            print("The option entered is not valid")
+
+    else:
+        pass
+
 # Ports Definition
 
     PORTS = str(input("¿Do you want to publish ports? [y/n]: "))
@@ -74,6 +94,20 @@ while CONT == "y":
     else:
         pass
 
+# depends_on definition
+
+    DEP = str(input("Do you want to define a dependency? [y/n]: "))
+
+    if DEP == ("y"):
+        TEXT_FILE.write("\n    depends_on: ")
+        DEP_NAME = str(input("Define the service you want to wait, comma separated: "))
+        DEP_NAME = DEP_NAME.split(", ")
+        for item in DEP_NAME:
+            TEXT_FILE.write("\n     - %s" % item)
+
+    else:
+        pass
+
 # Networks Definition
 
     NETWORKS = str(input("Do you want to define a network? [y/n]: "))
@@ -83,6 +117,20 @@ while CONT == "y":
         NETWORK_NAME = str(input("Define the networks, comma separated: "))
         NETWORK_NAME = NETWORK_NAME.split(", ")
         for item in NETWORK_NAME:
+            TEXT_FILE.write("\n     - %s" % item)
+
+    else:
+        pass
+
+# Env definition
+
+    ENV = str(input("Do you want to define a environment variables? [y/n]: "))
+
+    if ENV == ("y"):
+        TEXT_FILE.write("\n    environment: ")
+        ENV_NAME = str(input("Define the environment variables with values, comma separated: "))
+        ENV_NAME = ENV_NAME.split(", ")
+        for item in ENV_NAME:
             TEXT_FILE.write("\n     - %s" % item)
 
     else:
@@ -189,16 +237,18 @@ TEXT_FILE.close()
 
 print("\nFile building is done. You'll find it in this folder:")
 print("\n"+os.getcwd())
-print("\n#######################################")
-print("#### Thank you for using EZCompose ####")
-print("#######################################")
+print("######################################################################")
+print("#################### Thank you for using EZCompose ###################")
+print("######################################################################")
 
 # Horas dedicadas a este proyecto:
 # 14/11/2020: 10.5
 # 15/11/2020: 2
 # 19/11/2020: 8
 # 20/11/2020: 1
-# 21/11/2020: 9:30A
+# 21/11/2020: 3
+# 22/11/2020: 1:30
+# 29/11/2020: 11:00
 
 # Contributors:
 # * Ignacio Van Droogenbroeck

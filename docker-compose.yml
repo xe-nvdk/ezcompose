@@ -3,52 +3,39 @@ version: "3.8"
 services:
 
 
-   proxy:
-    container_name: traefik
-    image: traefik:latest
+   webserver:
+    container_name: wordpress
+    image: wordpress:latest
+    restart: always
     ports:
      - 80:80
-     - 443:443
+    depends_on: 
+     - db
     networks: 
-     - proxy
+     - frontend
+    environment: 
+     - WORDPRESS_DB_HOST=db
+     - WORDPRESS_DB_USER=user
+     - WORDPRESS_DB_PASSWORD=password
+     - WORDPRESS_DB_NAME=database
     volumes: 
-     - ./acme.json:/acme.json:rw
-     - /var/run/docker.sock:/var/run/docker.sock:ro
-    command: 
-     - --entrypoints.web.address=:80
-     - --entrypoints.websecure.address=:443
-     - --providers.docker
-     - --log.level=ERROR
-     - --certificatesresolvers.leresolver.acme.httpchallenge=true
-     - --certificatesresolvers.leresolver.acme.email=name@yourdomain.com
-     - --certificatesresolvers.leresolver.acme.storage=./acme.json
-     - --certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web
-    labels:
-     - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
-     - "traefik.http.routers.http-catchall.entrypoints=web"
-     - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
-     - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+     - $PWD:/var/www/html/wp-content:rw
 
-networks:
-  proxy:
-
-   webserver:
-    container_name: nginx
-    image: nginx:latest
+   db:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
     networks: 
-     - proxy
-    volumes:
-     - mynginxvol:/usr/share/nginx/html
-    labels:
-     - "traefik.enable=true"
-     - "traefik.http.routers.frontend.rule=Host(`yourdomain.com`)"
-     - "traefik.http.routers.frontend.entrypoints=websecure"
-     - "traefik.http.services.frontend.loadbalancer.server.port=80"
-     - "traefik.http.routers.frontend.service=frontend"
-     - "traefik.http.routers.frontend.tls.certresolver=leresolver"
+     - frontend
+    environment: 
+     - MYSQL_DATABASE=data
+     - MYSQL_USER=user
+     - MYSQL_PASSWORD=password
+     - MYSQL_RANDOM_ROOT_PASSWORD=superpassword
+    volumes: 
+     - mydb:/var/lib/mysql:rw
 
 networks:
-  proxy:
-
+  frontend:
 volumes:
-  mynginxvol:
+  mydb:

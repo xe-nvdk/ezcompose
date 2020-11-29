@@ -18,7 +18,7 @@ If you don't have installed Python, you can download it from [[here](https://www
 
 Since the v0.1.5, EZCompose can be run from a Docker Container, you only need to run...
 ```
-$ docker run -it hectorivand/ezcompose:v0.1.5
+$ docker run -it hectorivand/ezcompose:v0.1.6
 ```
 
 ### I want to contribute with EZCompose

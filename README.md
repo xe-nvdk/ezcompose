@@ -14,7 +14,7 @@ If you're a Windows user, you need to download the source code and run it in the
 ```
 $ python3 ezcompose.py
 ```
-If you don't have installed Python, you can download it from [[here](https://www.python.org/downloads/).
+If you don't have installed Python, you can download it from [here](https://www.python.org/downloads/).
 
 Since the v0.1.5, EZCompose can be run from a Docker Container; you only need to run...
 ```

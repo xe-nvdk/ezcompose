@@ -1,6 +1,8 @@
 # EZCompose ![visitors](https://visitor-badge.glitch.me/badge?page_id=ezcompose) ![Pylint](https://github.com/xe-nvdk/ezcompose/workflows/Pylint/badge.svg)
 EZCompose is a docker-compose.yml builder. Define your images, networks, volumes, ports and more, easily. In this video (Spanish), you can see how [EZCompose works](https://youtu.be/nCqUx_3D7mQ?t=100).
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B34N5TU)
+
 ## FAQ
 
 ### How should I run EZCompose?

@@ -1,13 +1,11 @@
 import os
 os.system("clear")
 
-# v0.1.6
+# v0.1.7
 
 # What's New
 
-# Added Restart condition
-# Added Environment variables
-# Added depends_on
+# EZCompose now supports multiple managed volumes.
 
 print("######################################################################")
 print("###################### Welcome to EZCompose ##########################")
@@ -22,6 +20,8 @@ TEXT_FILE.write(VERSION)
 
 SERVICES = ("services:\n")
 TEXT_FILE.write(SERVICES)
+
+MANAGED_VOLUMES_NAME_LIST = []
 
 CONT = "y"
 while CONT == "y":
@@ -131,7 +131,7 @@ while CONT == "y":
         ENV_NAME = str(input("Define the environment variables with values, comma separated: "))
         ENV_NAME = ENV_NAME.split(", ")
         for item in ENV_NAME:
-            TEXT_FILE.write("\n     - %s" % item)
+            TEXT_FILE.write("\n      %s" % item)
 
     else:
         pass
@@ -166,12 +166,18 @@ while CONT == "y":
     if BIND_VOLUMES == str("n") and MANAGED_VOLUMES == ("y"):
         TEXT_FILE.write("\n    volumes:")
 
+    CONT = "y"
+    while CONT == "y":
+        # create a list of volumes
+        if MANAGED_VOLUMES == str("y"):
+            VOLUME_NAME = str(input("Define the volume name: "))
+            MANAGED_VOLUMES_NAME_LIST.append(VOLUME_NAME)
+            CONTAINER_PATH = str(input("Define the path in container: "))
+            TEXT_FILE.write(str("\n     - " + str(VOLUME_NAME) + str(":") + str(CONTAINER_PATH)))
 
-    if MANAGED_VOLUMES == str("y"):
-        VOLUME_NAME = str(input("Define a Managed Volume name: "))
-        CONTAINER_PATH = str(input("Define the path in container: "))
-        TEXT_FILE.write(str("\n     - " + str(VOLUME_NAME) + ":" + str(CONTAINER_PATH)))
-
+            CONT = str(input("\nDo you want to add another managed volume? [y/n]: "))
+        else:
+            break
     else:
         pass
 
@@ -221,7 +227,7 @@ while CONT == "y":
 
     CONT = str(input("\nDo you want to add a new container? [y/n]: "))
 
-# Definiendo redes y volumenes
+# defining networks
 
 if NETWORKS == str("y"):
     TEXT_FILE.write("\n\n" + str("networks:"))
@@ -229,9 +235,13 @@ if NETWORKS == str("y"):
     for item in NETWORK_NAME:
         TEXT_FILE.write("\n  %s:" % item)
 
+# Defining managed volumes
+
 if MANAGED_VOLUMES == str("y"):
-    TEXT_FILE.write("\n\nvolumes:")
-    TEXT_FILE.write(str("\n  ") + str(VOLUME_NAME) + str(":"))
+    TEXT_FILE.write("\n\n" + str("volumes:"))
+
+    for item in MANAGED_VOLUMES_NAME_LIST:
+        TEXT_FILE.write("\n  %s:" % item)
 
 TEXT_FILE.close()
 
@@ -249,6 +259,7 @@ print("######################################################################")
 # 21/11/2020: 3
 # 22/11/2020: 1:30
 # 29/11/2020: 11:00
+# 09/07/2022: 2
 
 # Contributors:
 # * Ignacio Van Droogenbroeck

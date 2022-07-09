@@ -3,39 +3,41 @@ version: "3.8"
 services:
 
 
-   webserver:
+   wordpress:
     container_name: wordpress
     image: wordpress:latest
     restart: always
     ports:
      - 80:80
     depends_on: 
-     - db
+     - mysql
     networks: 
-     - frontend
+     - wordpress
     environment: 
-     - WORDPRESS_DB_HOST=db
-     - WORDPRESS_DB_USER=user
-     - WORDPRESS_DB_PASSWORD=password
-     - WORDPRESS_DB_NAME=database
-    volumes: 
-     - $PWD:/var/www/html/wp-content:rw
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+     - wordpress_data:/var/www/html
 
-   db:
+   mysql:
     container_name: mysql
     image: mysql:latest
     restart: always
     networks: 
-     - frontend
+     - wordpress
     environment: 
-     - MYSQL_DATABASE=data
-     - MYSQL_USER=user
-     - MYSQL_PASSWORD=password
-     - MYSQL_RANDOM_ROOT_PASSWORD=superpassword
-    volumes: 
-     - mydb:/var/lib/mysql:rw
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+    volumes:
+     - mysql_data:/var/lib/mysql
 
 networks:
-  frontend:
+  wordpress:
+
 volumes:
-  mydb:
+  wordpress_data:
+  mysql_data:

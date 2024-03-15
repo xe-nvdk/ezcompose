@@ -15,7 +15,7 @@ services:
       - WORDPRESS_DB_NAME=wordpress
       - WORDPRESS_TABLE_PREFIX=ezcompose_
     volumes:
-      - ./mysql:/var/www/html
+      - ./wordpress:/var/www/html
   mysql:
     image: mysql:latest
     container_name: mysql
@@ -28,4 +28,4 @@ services:
       - MYSQL_PASSWORD=mysql
       - MYSQL_ROOT_PASSWORD=mysql
     volumes:
-      - .:/var/lib/mysql
+      - ./mysql:/var/lib/mysql

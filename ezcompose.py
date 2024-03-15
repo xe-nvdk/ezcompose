@@ -1,265 +1,58 @@
 import os
+
+def prompt_input(prompt, valid_responses=None, default=None):
+    while True:
+        response = input(prompt).strip().lower()
+        if valid_responses and response in valid_responses:
+            return response
+        elif response == '' and default is not None:
+            return default
+        print("Invalid input.")
+
+def add_simple_entry(key, prompt, file):
+    response = prompt_input(f"{prompt} [y/n]: ", valid_responses=["y", "n"], default="n")
+    if response == "y":
+        value = input(f"Enter {key}: ").strip()
+        file.write(f"\n    {key}: {value}")
+
+def add_list_entry(key, entry_prompt, add_more_prompt, file):
+    add_entry = prompt_input(f"Do you want to add {key}? [y/n]: ", valid_responses=["y", "n"], default="n")
+    if add_entry == "y":
+        file.write(f"\n    {key}:")
+        while add_entry == "y":
+            entry = input(entry_prompt).strip()
+            file.write(f"\n      - {entry}")
+            add_entry = prompt_input(add_more_prompt, valid_responses=["y", "n"], default="n")
+
+# Clear terminal screen
 os.system("clear")
-
-# v0.1.7
-
-# What's New
-
-# EZCompose now supports multiple managed volumes.
-
-print("######################################################################")
-print("###################### Welcome to EZCompose ##########################")
-print("######################################################################\n")
-
-print("This software is going to help you to build a docker-compose.yml file.\n")
-
-TEXT_FILE = open("docker-compose.yml", "w")
-
-VERSION = ('version: "3.8"\n\n')
-TEXT_FILE.write(VERSION)
-
-SERVICES = ("services:\n")
-TEXT_FILE.write(SERVICES)
-
-MANAGED_VOLUMES_NAME_LIST = []
-
-CONT = "y"
-while CONT == "y":
-
-# Defining Service Name
-
-    SERVICE_NAME = str(input("Name of the service: "))
-    TEXT_FILE.write("\n\n   " + str(SERVICE_NAME) + ":")
-
-# Name of the container
-
-    CONTAINER_NAME = str(input("Do you want to name your container? [y/n]: "))
-    if CONTAINER_NAME == str("y"):
-        CONTAINER_NAME = str(input("Specify a name: "))
-        TEXT_FILE.write("\n    " + str("container_name: ") + str(CONTAINER_NAME))
-
-    else:
-        pass
-
-# Image to download
-
-    IMAGE = str(input("What's the image?: "))
-    TEXT_FILE.write(str("\n    ") + str("image: ") + str(IMAGE))
-
-# Restart Condition
-
-    RESTART = str(input("Do you want to define a restart policy? [y/n]: "))
-    if RESTART == ("y"):
-        print("In what condition you container should restart?:")
-        print("\n1: None \n2: Always \n3: On-Failure \n4: Unless-Stopped\n")
-        CONDITION = int(input("\nEnter your selection: "))
-
-        if CONDITION == int(1):
-            TEXT_FILE.write("\n    " + str("restart: no"))
-
-        elif CONDITION == int(2):
-            TEXT_FILE.write("\n    " + str("restart: always"))
-
-        elif CONDITION == int(3):
-            TEXT_FILE.write("\n    " + str("restart: on-failure"))
-
-        elif CONDITION == int(4):
-            TEXT_FILE.write("\n    " + str("restart: unless-stopped"))
-
-        else:
-            print("The option entered is not valid")
-
-    else:
-        pass
-
-# Ports Definition
-
-    PORTS = str(input("¿Do you want to publish ports? [y/n]: "))
-    if PORTS == ("y"):
-        TEXT_FILE.write("\n    " + str("ports:"))
-
-    CONT = "y"
-    while CONT == "y":
-
-        if PORTS == str("y"):
-            PORT_PUBLISHED = int(input("Define external port: "))
-            PORT_CONTAINER = int(input("Define container port: "))
-            TEXT_FILE.write("\n     - " + str(PORT_PUBLISHED) + ":" + str(PORT_CONTAINER))
-
-            CONT = str(input("\nDo you want to add more ports? [y/n]: "))
-
-        else:
-            break
-
-    else:
-        pass
-
-# depends_on definition
-
-    DEP = str(input("Do you want to define a dependency? [y/n]: "))
-
-    if DEP == ("y"):
-        TEXT_FILE.write("\n    depends_on: ")
-        DEP_NAME = str(input("Define the service you want to wait, comma separated: "))
-        DEP_NAME = DEP_NAME.split(", ")
-        for item in DEP_NAME:
-            TEXT_FILE.write("\n     - %s" % item)
-
-    else:
-        pass
-
-# Networks Definition
-
-    NETWORKS = str(input("Do you want to define a network? [y/n]: "))
-
-    if NETWORKS == ("y"):
-        TEXT_FILE.write("\n    networks: ")
-        NETWORK_NAME = str(input("Define the networks, comma separated: "))
-        NETWORK_NAME = NETWORK_NAME.split(", ")
-        for item in NETWORK_NAME:
-            TEXT_FILE.write("\n     - %s" % item)
-
-    else:
-        pass
-
-# Env definition
-
-    ENV = str(input("Do you want to define a environment variables? [y/n]: "))
-
-    if ENV == ("y"):
-        TEXT_FILE.write("\n    environment: ")
-        ENV_NAME = str(input("Define the environment variables with values, comma separated: "))
-        ENV_NAME = ENV_NAME.split(", ")
-        for item in ENV_NAME:
-            TEXT_FILE.write("\n      %s" % item)
-
-    else:
-        pass
-
-# Bind Volumes Definition
-
-    BIND_VOLUMES = str(input("¿Do you want to add a bind volume? [y/n]: "))
-    if BIND_VOLUMES == str("y"):
-        TEXT_FILE.write("\n    volumes: ")
-
-    CONT = "y"
-    while CONT == "y":
-
-        if BIND_VOLUMES == str("y"):
-            LOCAL_PATH = str(input("Define the local path: "))
-            CONTAINER_PATH = str(input("Define the path in container: "))
-            PERMISSIONS = str(input("Define permissions [rw/ro]: "))
-            TEXT_FILE.write(str("\n     - " + str(LOCAL_PATH) + str(":") + str(CONTAINER_PATH)))
-            TEXT_FILE.write(":" + str(PERMISSIONS))
-
-            CONT = str(input("\nDo you want to add another bind volume? [y/n]: "))
-
-        else:
-            break
-
-    else:
-        pass
-
-# Managed Volumes Definition
-
-    MANAGED_VOLUMES = str(input("¿Do you want to add a managed volume? [y/n]: "))
-    if BIND_VOLUMES == str("n") and MANAGED_VOLUMES == ("y"):
-        TEXT_FILE.write("\n    volumes:")
-
-    CONT = "y"
-    while CONT == "y":
-        # create a list of volumes
-        if MANAGED_VOLUMES == str("y"):
-            VOLUME_NAME = str(input("Define the volume name: "))
-            MANAGED_VOLUMES_NAME_LIST.append(VOLUME_NAME)
-            CONTAINER_PATH = str(input("Define the path in container: "))
-            TEXT_FILE.write(str("\n     - " + str(VOLUME_NAME) + str(":") + str(CONTAINER_PATH)))
-
-            CONT = str(input("\nDo you want to add another managed volume? [y/n]: "))
-        else:
-            break
-    else:
-        pass
-
-# Command definition
-
-    COMMAND = str(input("Do you want to define a command? [y/n]: "))
-    if COMMAND == str("y"):
-        TEXT_FILE.write("\n    " + str("command: "))
-
-    CONT = "y"
-    while CONT == "y":
-
-        if COMMAND == str("y"):
-            COMMAND_NAME = str(input("Type the command: "))
-            TEXT_FILE.write(str('\n     - ') + str(COMMAND_NAME))
-
-            CONT = str(input("\nDo you want to add another command? [y/n]: "))
-
-        else:
-            break
-
-    else:
-        pass
-
-# Label Definition
-
-    LABELS = str(input("Do you want to add a label? [y/n]: "))
-    if LABELS == ("y"):
-        TEXT_FILE.write("\n    " + str("labels:"))
-
-    CONT = "y"
-    while CONT == "y":
-
-        if LABELS == str("y"):
-            LABEL_NAME = str(input("Name of the label: "))
-            LABEL_VALUE = str(input("Value of the label: "))
-            TEXT_FILE.write(str('\n     - "') + str(LABEL_NAME))
-            TEXT_FILE.write(str('=') + str(LABEL_VALUE) + str('"'))
-
-            CONT = str(input("\nDo you want to add another label? [y/n]: "))
-
-        else:
-            break
-
-    else:
-        pass
-
-    CONT = str(input("\nDo you want to add a new container? [y/n]: "))
-
-# defining networks
-
-if NETWORKS == str("y"):
-    TEXT_FILE.write("\n\n" + str("networks:"))
-
-    for item in NETWORK_NAME:
-        TEXT_FILE.write("\n  %s:" % item)
-
-# Defining managed volumes
-
-if MANAGED_VOLUMES == str("y"):
-    TEXT_FILE.write("\n\n" + str("volumes:"))
-
-    for item in MANAGED_VOLUMES_NAME_LIST:
-        TEXT_FILE.write("\n  %s:" % item)
-
-TEXT_FILE.close()
+print("Welcome to EZCompose - Docker Compose File Builder\n")
+
+with open("docker-compose.yml", "w") as file:
+    file.write('version: "3.8"\nservices:')
+
+    add_container = "y"
+    while add_container == "y":
+        service_name = input("\nName of the service: ").strip()
+        file.write(f"\n  {service_name}:")
+        image = input("Enter the image name: ").strip()
+        file.write(f"\n    image: {image}")
+
+        # Simple entries
+        add_simple_entry("container_name", "Do you want to add a container name?", file)
+        add_simple_entry("restart", "Do you want to add a restart policy?", file)
+
+        # List entries
+        add_list_entry("ports", "Enter <external>:<internal> port mapping: ", "Add more ports? [y/n]: ", file)
+        add_list_entry("depends_on", "Enter dependent service name: ", "Add more dependencies? [y/n]: ", file)
+        add_list_entry("environment", "Enter environment variable in KEY=VALUE format: ", "Add more environment variables? [y/n]: ", file)
+        add_list_entry("volumes", "Enter <local_path>:<container_path> volume mapping: ", "Add more volumes? [y/n]: ", file)
+
+        add_container = prompt_input("\nDo you want to add another service? [y/n]: ", valid_responses=["y", "n"], default="n")
+
+    # Networks and volumes at the top level
+    add_list_entry("networks", "Enter network name: ", "Add more networks? [y/n]: ", file)
+    add_list_entry("volumes", "Enter volume name: ", "Add more volumes? [y/n]: ", file)
 
 print("\nFile building is done. You'll find it in this folder:")
-print("\n"+os.getcwd())
-print("######################################################################")
-print("#################### Thank you for using EZCompose ###################")
-print("######################################################################")
-
-# Horas dedicadas a este proyecto:
-# 14/11/2020: 10.5
-# 15/11/2020: 2
-# 19/11/2020: 8
-# 20/11/2020: 1
-# 21/11/2020: 3
-# 22/11/2020: 1:30
-# 29/11/2020: 11:00
-# 09/07/2022: 2
-
-# Contributors:
-# * Ignacio Van Droogenbroeck
+print("\n" + os.getcwd())
